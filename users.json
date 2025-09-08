@@ -1,0 +1,7 @@
+{
+  "users": [
+    { "name": "John Doe", "phone": 1234567890, "fave_color": "red" },
+    { "name": "Jane Doe", "phone": 9987654321, "fave_color": "blue" },
+    { "name": "The Guy", "phone": 5555555555, "fave_color": "silver" }
+  ]
+}
