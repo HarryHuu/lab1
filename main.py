@@ -7,13 +7,11 @@ from pathlib import Path
 import json
 
 app = FastAPI()
-
-# --- paths & templates ---
 BASE_DIR = Path(__file__).resolve().parent
 USERS_PATH = BASE_DIR / "users.json"
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
-# --- helpers to load/save users ---
+# load/save users ---
 def load_users() -> List[dict]:
     with USERS_PATH.open("r", encoding="utf-8") as f:
         data = json.load(f)
@@ -23,15 +21,11 @@ def save_users(users: List[dict]) -> None:
     with USERS_PATH.open("w", encoding="utf-8") as f:
         json.dump({"users": users}, f, ensure_ascii=False, indent=2)
 
-# --- Pydantic model for validation ---
 class User(BaseModel):
     name: str = Field(..., min_length=1)
     phone: int
     fave_color: str
 
-# --------------------
-# Lab endpoints (keep)
-# --------------------
 @app.get("/")
 def read_root():
     return {"message": "Welcome to this fantastic app!"}
@@ -45,9 +39,7 @@ def get_users_lab_style():
     return data
 
 # --------------------
-# DIY JSON CRUD
-# --------------------
-# List (clean version)
+# DIY JSON CRUD Problem
 @app.get("/users2", response_model=List[User])
 def list_users():
     return load_users()
@@ -91,9 +83,7 @@ def delete_user(name: str):
     save_users(new_users)
     return None
 
-# --------------------
-# Optional: HTML view
-# --------------------
+
 @app.get("/users/html", response_class=HTMLResponse)
 def users_html(request: Request):
     return templates.TemplateResponse(
